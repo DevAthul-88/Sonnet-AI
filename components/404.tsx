@@ -30,7 +30,7 @@ export default function NotFound() {
           The page you're looking for doesn't exist or has been moved. 
           Don't worry, you can find plenty of other things on our homepage.
         </p>
-        <Button asChild size="lg">
+        <Button size="lg">
           <Link href="/">
             Return to Homepage
           </Link>
