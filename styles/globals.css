@@ -1,0 +1,202 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 5%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 5%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 5%;
+
+    --primary: 16 54% 47%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 5%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 5%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 92%;
+    --input: 0 0% 85%;
+    --ring: 0 0% 76%;
+
+    --radius: 0.5rem;
+  }
+  
+  .dark {
+    --background: 0 3% 6%;
+    --foreground: 0 0% 98%;
+
+    --card: 30 6% 7%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 30 6% 7%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 16 54% 47%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 15 5% 15%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 20 5% 22%;
+    --muted-foreground: 15 5% 49%;
+
+    --accent: 16 45% 14%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 20 5% 12%;
+    --input: 15 4% 18%;
+    --ring: 16 54% 40%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .step {
+    counter-increment: step;
+  }
+
+  .step:before {
+    @apply absolute w-9 h-9 bg-muted rounded-full font-mono font-medium text-center text-base inline-flex items-center justify-center -indent-px border-4 border-background;
+    @apply ml-[-50px] mt-[-4px];
+    content: counter(step);
+  }
+}
+
+.text-gradient_indigo-purple {
+  background: linear-gradient(90deg, #6366f1 0%, rgb(168 85 247 / 0.8) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Custom scrollbar styles for the chat area */
+.scroll-area {
+  overflow-y: scroll; /* Ensure vertical scrolling */
+}
+
+/* Hide up and down arrows in WebKit */
+.scroll-area::-webkit-scrollbar-button {
+  display: none; /* Hides the scrollbar buttons (up and down arrows) */
+}
+
+/* WebKit scrollbar track */
+.scroll-area::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+/* Scrollbar track */
+.scroll-area::-webkit-scrollbar-track {
+  background-color: transparent; /* Background color for the track */
+}
+
+/* Scrollbar thumb */
+.scroll-area::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #555; /* Color for the thumb */
+}
+
+/* Firefox scrollbar styling */
+.scroll-area {
+  scrollbar-width: 13px; /* Use a thin scrollbar */
+  scrollbar-color: #555 transparent; /* Thumb color and track color */
+}
+
+/* Hide scrollbar buttons in Firefox */
+.scroll-area::-moz-scrollbar-button {
+  display: none; /* Hides the scrollbar buttons in Firefox */
+}
+
+
+.sticky-footer {
+  position: sticky;
+  bottom: 11rem; /* Default: bottom-36 (36 * 0.25rem = 9rem) */
+  left: 0;
+  right: 0;
+  background-color: hsl(var(--background));
+  border-top: 1px solid #ccc; /* Optional border for style */
+  border-color: hsl(var(--border));
+  padding: 1rem 1rem; /* Default padding (top/bottom: 1rem, left/right: 1rem) */
+}
+
+
+/* Responsive adjustments */
+@media (min-width: 640px) { /* sm: */
+  .sticky-footer {
+    bottom: 8rem;
+    padding: 1rem 1rem; /* sm:px-4 translates to padding-left and padding-right of 1rem */
+  }
+}
+
+@media (min-width: 1280px) { /* xl: */
+  .sticky-footer {
+    bottom: 8rem; /* xl:bottom-48 (48 * 0.25rem = 12rem) */
+  }
+}
+
+/* Max-width for the form */
+.max-width-form {
+  max-width: 1024px; /* Equivalent to max-w-4xl */
+  margin: 0 auto; /* Center the form */
+}
+
+.flex-container {
+  display: flex; /* Flexbox for layout */
+  align-items: flex-end; /* Align items at the bottom */
+}
+
+.message-input {
+  resize: none; /* Prevent resizing */
+  border: 1px solid #ccc; /* Border styling */
+  border-radius: 8px; /* Rounded corners */
+  padding: 10px; /* Padding inside the textarea */
+  width: calc(100% - 40px); /* Full width minus button width */
+  min-height: 44px; /* Minimum height */
+  max-height: 200px; /* Maximum height */
+}
+
+.send-button {
+  position: absolute; /* Position button inside relative container */
+  bottom: 10px; /* Adjust as needed */
+  right: 10px; /* Adjust as needed */
+}
+
+.submit-btn {
+  background: none; /* Remove default background */
+  border: none; /* Remove default border */
+  cursor: pointer; /* Pointer cursor */
+}
+
+.loader {
+  /* Loader styles if needed */
+}
+
+.send-icon {
+  /* Icon styles, can use font-awesome or other icon libraries */
+}
