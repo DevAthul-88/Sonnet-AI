@@ -92,23 +92,25 @@ export default function LayoutMain({ children }: { children: React.ReactNode }) 
   }, [sidebarExpanded, setSidebarExpanded]);
 
   useEffect(() => {
-    // Ensure `window` is available (client-side only)
-    const checkScreenSize = () => {
-      if (typeof window !== 'undefined') {
-        const mobile = window.innerWidth < 768;
-        setIsMobile(mobile);
+    if (typeof window !== 'undefined') {
+      // Ensure `window` is available (client-side only)
+      const checkScreenSize = () => {
+        if (typeof window !== 'undefined') {
+          const mobile = window.innerWidth < 768;
+          setIsMobile(mobile);
 
-        // Hide sidebar if on mobile
-        if (mobile) {
-          setSidebarExpanded(false);
+          // Hide sidebar if on mobile
+          if (mobile) {
+            setSidebarExpanded(false);
+          }
         }
-      }
-    };
+      };
 
-    checkScreenSize(); // Initial check on mount
-    window.addEventListener('resize', checkScreenSize);
+      checkScreenSize(); // Initial check on mount
+      window.addEventListener('resize', checkScreenSize);
 
-    return () => window.removeEventListener('resize', checkScreenSize);
+      return () => window.removeEventListener('resize', checkScreenSize);
+    }
   }, []);
 
 
@@ -275,7 +277,7 @@ export default function LayoutMain({ children }: { children: React.ReactNode }) 
               </Tooltip>
 
               {sidebarExpanded && (
-               <RecentChats />
+                <RecentChats />
               )}
 
 
