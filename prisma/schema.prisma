@@ -4,7 +4,17 @@ generator client {
 
 datasource db {
   provider = "cockroachdb"
-  url      = "postgresql://development:JH9xUlzbCAmkk-zWZmMtfA@comely-coho-3014.jxf.gcp-asia-southeast1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-fulll"
+  url      = env("DATABASE_URL")
+}
+
+enum ChatStatus {
+  PRIVATE
+  PUBLIC
+}
+
+enum UserRole {
+  USER
+  ADMIN
 }
 
 model Account {
