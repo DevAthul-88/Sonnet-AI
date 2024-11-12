@@ -100,9 +100,13 @@ export default function ChatBox() {
             router.push(`/chat/${chatId}`);
             setMessage('');
         } catch (error) {
-            console.error('Error sending message:', error);
-        } finally {
             setIsLoading(false);
+            toast({
+                title: "Error",
+                description: "Something went wrong, please try again later",
+                variant: "destructive",
+            });
+            console.error('Error sending message:', error);
         }
     };
 
