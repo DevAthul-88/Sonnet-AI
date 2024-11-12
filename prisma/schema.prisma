@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "cockroachdb"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
@@ -18,7 +18,7 @@ enum UserRole {
 }
 
 model Account {
-  id                String   @id @default(cuid())
+  id                String   @id @default(cuid()) @map("_id")
   userId            String
   type              String
   provider          String
@@ -40,7 +40,7 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           String   @id @default(cuid()) @map("_id")
   sessionToken String   @unique
   userId       String
   expires      DateTime
@@ -50,7 +50,7 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String    @id @default(cuid()) @map("_id")
   name          String?
   email         String?   @unique
   emailVerified DateTime?
@@ -71,15 +71,15 @@ model User {
 }
 
 model VerificationToken {
+  id         String   @id @default(cuid()) @map("_id")
   identifier String
   token      String   @unique
   expires    DateTime
-
   @@unique([identifier, token])
 }
 
 model Chat {
-  id        String    @id @default(uuid())
+  id        String    @id @default(cuid()) @map("_id")
   name      String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -88,10 +88,12 @@ model Chat {
   userId    String
   user      User      @relation(fields: [userId], references: [id])
   messages  Message[]
+
+  @@index([userId])
 }
 
 model Message {
-  id        String   @id @default(uuid())
+  id        String   @id @default(cuid()) @map("_id")
   message   String // User's input message
   content   String // AI's response content
   createdAt DateTime @default(now())
@@ -100,4 +102,6 @@ model Message {
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   type_u    String   @default("user")
+
+  @@index([chatId, userId])
 }
