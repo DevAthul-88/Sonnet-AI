@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "cockroachdb"
+  url      = "postgresql://development:JH9xUlzbCAmkk-zWZmMtfA@comely-coho-3014.jxf.gcp-asia-southeast1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-fulll"
 }
 
 model Account {
