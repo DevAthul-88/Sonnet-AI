@@ -92,17 +92,20 @@ export default function LayoutMain({ children }: { children: React.ReactNode }) 
   }, [sidebarExpanded, setSidebarExpanded]);
 
   useEffect(() => {
+    // Ensure `window` is available (client-side only)
     const checkScreenSize = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
+      if (typeof window !== 'undefined') {
+        const mobile = window.innerWidth < 768;
+        setIsMobile(mobile);
 
-      // Hide sidebar if on mobile
-      if (mobile) {
-        setSidebarExpanded(false);
+        // Hide sidebar if on mobile
+        if (mobile) {
+          setSidebarExpanded(false);
+        }
       }
     };
 
-    checkScreenSize();
+    checkScreenSize(); // Initial check on mount
     window.addEventListener('resize', checkScreenSize);
 
     return () => window.removeEventListener('resize', checkScreenSize);
