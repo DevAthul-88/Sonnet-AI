@@ -42,6 +42,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             disableTransitionOnChange
           >
             <ModalProvider>{children}</ModalProvider>
+            <Analytics />
             <Toaster richColors closeButton />
           </ThemeProvider>
         </SessionProvider>
