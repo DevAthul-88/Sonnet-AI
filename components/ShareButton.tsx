@@ -1,7 +1,5 @@
-'use client'
-
 import { useState, useEffect } from 'react'
-import { Share, Twitter, Facebook, Linkedin, Link2, Mail, Copy, Moon, Sun, QrCode } from 'lucide-react'
+import { Share, Twitter, Facebook, Linkedin, Link2, Mail, Copy, Moon, Sun, QrCode, Check } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -14,15 +12,16 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
-import {QRCodeSVG} from 'qrcode.react';
+import {QRCodeSVG} from 'qrcode.react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { siteConfig } from '@/config/site'
+import { useTheme } from 'next-themes'
 
 export default function ShareButton() {
   const [isOpen, setIsOpen] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(false)
   const [copySuccess, setCopySuccess] = useState(false)
   const shareUrl = siteConfig.url
+  const { theme, setTheme } = useTheme()
 
   useEffect(() => {
     if (copySuccess) {
@@ -56,7 +55,7 @@ export default function ShareButton() {
           Share
         </Button>
       </DialogTrigger>
-      <DialogContent className={`sm:max-w-md ${isDarkMode ? 'dark' : ''}`}>
+      <DialogContent className={`sm:max-w-md ${theme === 'dark' ? 'dark' : ''}`}>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -121,14 +120,14 @@ export default function ShareButton() {
           <div className="flex items-center justify-between mt-6">
             <div className="flex items-center space-x-2">
               <Switch
-                id="dark-mode"
-                checked={isDarkMode}
-                onCheckedChange={setIsDarkMode}
+                id="theme-switch"
+                checked={theme === 'dark'}
+                onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')}
               />
-              <Label htmlFor="dark-mode">Dark Mode</Label>
+              <Label htmlFor="theme-switch">Dark Mode</Label>
             </div>
-            <Button size="icon" variant="ghost" onClick={() => setIsDarkMode(!isDarkMode)}>
-              {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            <Button size="icon" variant="ghost" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
           </div>
         </motion.div>
