@@ -68,6 +68,7 @@ import { Label } from "recharts"
 import { Input } from "../ui/input"
 import WrapperLayout from "./WrapperLayout"
 import RecentChats from "./RecentChats"
+import useLocalStorage from "@/hooks/use-local-storage"
 
 
 
@@ -80,9 +81,8 @@ interface ChatMessage {
 }
 
 export default function LayoutMain({ children }: { children: React.ReactNode }) {
-  const [sidebarExpanded, setSidebarExpanded] = useState(
-    () => JSON.parse(localStorage.getItem('sidebarExpanded')) || false
-  );
+  const [sidebarExpanded, setSidebarExpanded] = useLocalStorage('sidebarExpanded', false);
+
   const [isMobile, setIsMobile] = useState(false)
   const { setShowSignInModal } = useContext(ModalContext);
   const { data: session, status } = useSession()
@@ -91,25 +91,20 @@ export default function LayoutMain({ children }: { children: React.ReactNode }) 
     const checkScreenSize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-
-      // Hide sidebar if on mobile
+  
       if (mobile) {
         setSidebarExpanded(false);
       }
     };
-
+  
     checkScreenSize();
     window.addEventListener('resize', checkScreenSize);
-
+  
     return () => window.removeEventListener('resize', checkScreenSize);
-  }, []);
-
+  }, [setSidebarExpanded]);
+  
   const toggleSidebar = () => {
-    setSidebarExpanded((prevState) => {
-      const newState = isMobile ? false : !prevState;
-      localStorage.setItem('sidebarExpanded', JSON.stringify(newState));
-      return newState;
-    });
+    setSidebarExpanded((prevState) => (isMobile ? false : !prevState));
   };
 
   const { theme, setTheme } = useTheme()

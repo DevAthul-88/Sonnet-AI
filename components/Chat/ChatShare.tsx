@@ -28,8 +28,9 @@ interface Chat {
 
 interface ChatShareProps {
     chat: Chat;
-    setIsPrivate1: boolean
+    setIsPrivate1: (value: boolean) => void;
 }
+
 
 export default function ChatShare({ chat, setIsPrivate1 }: ChatShareProps) {
     const [isPrivate, setIsPrivate] = useState(chat?.status === 'PRIVATE')

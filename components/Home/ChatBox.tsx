@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 
 const useSpeechRecognition = (setMessage: (message: string) => void, setIsListening: (isListening: boolean) => void) => {
-    const [recognition, setRecognition] = useState<SpeechRecognition | null>(null);
+    const [recognition, setRecognition] = useState(null);
 
     useEffect(() => {
         if (!("webkitSpeechRecognition" in window)) {
@@ -24,7 +24,8 @@ const useSpeechRecognition = (setMessage: (message: string) => void, setIsListen
             return;
         }
 
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
         const newRecognition = new SpeechRecognition();
         newRecognition.continuous = false;
         newRecognition.interimResults = true;
