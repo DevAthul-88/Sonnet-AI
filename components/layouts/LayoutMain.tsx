@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect, useContext, useCallback } from "react"
 import {
   LifeBuoy,
   Menu,
@@ -87,25 +87,26 @@ export default function LayoutMain({ children }: { children: React.ReactNode }) 
   const { setShowSignInModal } = useContext(ModalContext);
   const { data: session, status } = useSession()
 
+  const toggleSidebar = useCallback(() => {
+    setSidebarExpanded(!sidebarExpanded);
+  }, [sidebarExpanded, setSidebarExpanded]);
+
   useEffect(() => {
     const checkScreenSize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-  
+
       if (mobile) {
         setSidebarExpanded(false);
       }
     };
-  
+
     checkScreenSize();
     window.addEventListener('resize', checkScreenSize);
-  
+
     return () => window.removeEventListener('resize', checkScreenSize);
-  }, [setSidebarExpanded]);
-  
-  const toggleSidebar = () => {
-    setSidebarExpanded((prevState) => (isMobile ? false : !prevState));
-  };
+  }, [sidebarExpanded, setSidebarExpanded]);
+
 
   const { theme, setTheme } = useTheme()
   const [isModalOpen, setIsModalOpen] = useState(false)
