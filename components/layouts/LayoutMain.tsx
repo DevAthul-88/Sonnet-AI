@@ -83,7 +83,7 @@ interface ChatMessage {
 export default function LayoutMain({ children }: { children: React.ReactNode }) {
   const [sidebarExpanded, setSidebarExpanded] = useLocalStorage('sidebarExpanded', false);
 
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const { setShowSignInModal } = useContext(ModalContext);
   const { data: session, status } = useSession()
 
@@ -96,6 +96,7 @@ export default function LayoutMain({ children }: { children: React.ReactNode }) 
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
 
+      // Hide sidebar if on mobile
       if (mobile) {
         setSidebarExpanded(false);
       }
@@ -105,7 +106,7 @@ export default function LayoutMain({ children }: { children: React.ReactNode }) 
     window.addEventListener('resize', checkScreenSize);
 
     return () => window.removeEventListener('resize', checkScreenSize);
-  }, [sidebarExpanded, setSidebarExpanded]);
+  }, []);
 
 
   const { theme, setTheme } = useTheme()
