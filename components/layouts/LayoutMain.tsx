@@ -69,6 +69,7 @@ import { Input } from "../ui/input"
 import WrapperLayout from "./WrapperLayout"
 import RecentChats from "./RecentChats"
 import useLocalStorage from "@/hooks/use-local-storage"
+import useScreenSize from "@/hooks/use-screen-size"
 
 
 
@@ -83,7 +84,6 @@ interface ChatMessage {
 export default function LayoutMain({ children }: { children: React.ReactNode }) {
   const [sidebarExpanded, setSidebarExpanded] = useLocalStorage('sidebarExpanded', false);
 
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const { setShowSignInModal } = useContext(ModalContext);
   const { data: session, status } = useSession()
 
@@ -91,27 +91,17 @@ export default function LayoutMain({ children }: { children: React.ReactNode }) 
     setSidebarExpanded(!sidebarExpanded);
   }, [sidebarExpanded, setSidebarExpanded]);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Ensure `window` is available (client-side only)
-      const checkScreenSize = () => {
-        if (typeof window !== 'undefined') {
-          const mobile = window.innerWidth < 768;
-          setIsMobile(mobile);
-
-          // Hide sidebar if on mobile
-          if (mobile) {
-            setSidebarExpanded(false);
-          }
-        }
-      };
-
-      checkScreenSize(); // Initial check on mount
-      window.addEventListener('resize', checkScreenSize);
-
-      return () => window.removeEventListener('resize', checkScreenSize);
+ 
+  const handleMobileChange = useCallback((isMobile: boolean) => {
+    if (isMobile) {
+      setSidebarExpanded(false);
     }
   }, []);
+
+  const { isMobile } = useScreenSize({
+    mobileBreakpoint: 768,
+    onMobileChange: handleMobileChange
+  });
 
 
   const { theme, setTheme } = useTheme()
@@ -183,6 +173,7 @@ export default function LayoutMain({ children }: { children: React.ReactNode }) 
 
 
         <div className={`grid h-screen w-full ${sidebarExpanded && !isMobile ? 'md:pl-64' : 'md:pl-14'}`}>
+       
           <aside className={`fixed inset-y-0 left-0 z-30 flex h-full flex-col border-r transition-all duration-300 bg-background ${sidebarExpanded ? 'w-64' : 'w-14'
             } ${isMobile ? (sidebarExpanded ? 'translate-x-0' : '-translate-x-full') : 'translate-x-0'}`}>
             <div className="flex items-center justify-between border-b p-2">
@@ -419,7 +410,7 @@ export default function LayoutMain({ children }: { children: React.ReactNode }) 
               >
                 <Menu className="size-5" />
               </Button>
-              <h1 className="text-xl font-semibold">Sonnet</h1>
+              <h1 className="text-xl font-semibold">Sonnet </h1>
               <ShareButton />
             </header>
             <main className="flex-1 overflow-auto">
@@ -427,6 +418,7 @@ export default function LayoutMain({ children }: { children: React.ReactNode }) 
             </main>
           </div>
         </div>
+
       </TooltipProvider>
     </WrapperLayout>
 
